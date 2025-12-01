@@ -1,0 +1,71 @@
+.funcionarios-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.funcionarios-table th {
+  background: #004b70;
+  color: white;
+  padding: 14px;
+  text-align: left;
+}
+
+.funcionarios-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+.funcionarios-table tr:hover {
+  background: #f3faff;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.status.ativo {
+  background: #d3f9d8;
+  color: #267a2e;
+}
+
+.status.inativo {
+  background: #ffe0e0;
+  color: #b50000;
+}
+
+.acoes button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin: 0 6px;
+  transition: 0.2s;
+}
+
+.btn-edit { color: #0077cc; }
+.btn-delete { color: #cc0000; }
+.btn-status { color: #ffa500; }
+
+.acoes button:hover {
+  transform: scale(1.2);
+}
+
+.senha-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.senha-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #004b70;
+  font-size: 16px;
+}

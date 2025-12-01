@@ -1,0 +1,64 @@
+.status-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.status-pill.pronta {
+  background-color: #28a745;
+}
+
+.status-pill.producao {
+  background-color: #ffc107;
+}
+
+.status-pill.transporte {
+  background-color: #17a2b8;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.mudar-btn {
+  background: #e0e6ed;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  margin-left: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.mudar-btn svg {
+  color: #2c3e50;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.mudar-btn:hover {
+  background: #d6dde5;
+  transform: scale(1.05);
+}
+
+.mudar-btn.disabled {
+  background: #cfd6dc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.mudar-btn.disabled svg {
+  color: #7b8b9a;
+  transform: none;
+}
