@@ -8,7 +8,7 @@ interface ModalProps {
 }
 
 interface Aeronave {
-  codigo: number;
+  codigo: string;
   modelo: string;
 }
 
@@ -30,14 +30,13 @@ function ModalEtapa({ onClose, onSave }: ModalProps) {
     async function carregarDados() {
       try {
         const [resAero, resFunc] = await Promise.all([
-          api.get('/aeronavesList'), 
-          api.get('/funcionariosList') 
+          api.get('/aeronavesList'),
+          api.get('/funcionariosList')
         ]);
         setListaAeronaves(resAero.data);
         setListaFuncionarios(resFunc.data);
       } catch (error) {
         console.error("Erro ao carregar listas:", error);
-        alert("Erro ao carregar dados do servidor.");
       }
     }
     carregarDados();
@@ -46,9 +45,9 @@ function ModalEtapa({ onClose, onSave }: ModalProps) {
   const toggleFuncionario = (id: number) => {
     setFuncionariosSelecionados(prev => {
       if (prev.includes(id)) {
-        return prev.filter(item => item !== id); 
+        return prev.filter(item => item !== id);
       } else {
-        return [...prev, id]; 
+        return [...prev, id];
       }
     });
   };
@@ -63,9 +62,9 @@ function ModalEtapa({ onClose, onSave }: ModalProps) {
 
     const novaEtapa = {
       nome,
-      dataPrevista: prazo, 
-      aeronaveId: Number(aeronaveSelecionada),
-      funcionarioIds: funcionariosSelecionados, 
+      dataPrevista: prazo,
+      aeronaveId: aeronaveSelecionada, 
+      funcionarioIds: funcionariosSelecionados,
       status
     };
 
@@ -80,7 +79,6 @@ function ModalEtapa({ onClose, onSave }: ModalProps) {
         <h3>Cadastrar Nova Etapa</h3>
 
         <form onSubmit={handleSave}>
-          
           <div className="form-group">
             <label htmlFor="nome">Nome da Etapa</label>
             <input 
@@ -140,10 +138,8 @@ function ModalEtapa({ onClose, onSave }: ModalProps) {
                 ))
               )}
             </div>
-            <small style={{color: '#666', fontSize: '0.8rem'}}>
-              {funcionariosSelecionados.length} selecionado(s)
-            </small>
           </div>
+
           <div className="form-group">
             <label htmlFor="status">Status da Etapa</label>
             <select 

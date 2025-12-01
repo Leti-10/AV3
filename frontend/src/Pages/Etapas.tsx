@@ -12,7 +12,7 @@ interface Etapa {
 }
 
 interface EtapasProps {
-  aeronaveId?: number;
+  aeronaveId?: string;
 }
 
 const statusMapFrontend = {
@@ -20,7 +20,6 @@ const statusMapFrontend = {
   Em_andamento: "Em Andamento",
   Concluido: "Concluída",
 } as const;
-
 
 const getStatusClass = (status: Etapa["status"]) => {
   switch (status) {
@@ -37,15 +36,17 @@ const formatarData = (dataString: string) => {
   return isNaN(date.getTime()) ? dataString : date.toLocaleDateString("pt-BR");
 };
 
-
 function Etapas({ aeronaveId }: EtapasProps) {
   const [etapas, setEtapas] = useState<Etapa[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const carregarEtapas = async () => {
     setLoading(true);
     try {
-      const res = await api.get("/etapas");
+      const url = aeronaveId ? `/etapas/${aeronaveId}` : "/etapas";
+      const res = await api.get(url);
+      
       const dados = res.data.map((e: any) => ({
           id: e.id,
           nome: e.nome,
@@ -81,30 +82,20 @@ function Etapas({ aeronaveId }: EtapasProps) {
 
   const handleAddEtapa = async (novaEtapa: any) => {
     try {
-      console.log("Dados recebidos do Modal:", novaEtapa);
-      const idAeronaveFinal = novaEtapa.aeronaveId 
-        ? Number(novaEtapa.aeronaveId) 
-        : Number(aeronaveId);
-
-      if (!idAeronaveFinal || isNaN(idAeronaveFinal)) {
-        alert("Erro: Nenhuma aeronave vinculada à etapa.");
-        return;
-      }
+      const idFinal = novaEtapa.aeronaveId || aeronaveId;
 
       await api.post("/etapa", {
         nome: novaEtapa.nome,
-        dataPrevista: novaEtapa.dataPrevista || novaEtapa.prazo,
-        status: novaEtapa.status || "Pendente", 
-        aeronaveId: idAeronaveFinal,
-        funcionarioIds: novaEtapa.funcionarioIds || [] 
+        dataPrevista: novaEtapa.dataPrevista,
+        status: "Pendente",
+        aeronaveId: idFinal, 
+        funcionarioIds: novaEtapa.funcionarioIds || [],
       });
-
       await carregarEtapas();
       setModalOpen(false);
-    } catch (err: any) {
-      console.error("Erro ao criar nova etapa:", err);
-      const mensagemErro = err.response?.data?.error || "Erro desconhecido";
-      alert(`Falha ao criar etapa: ${mensagemErro}`);
+    } catch (err) {
+      console.error("Erro ao criar nova etapa", err);
+      alert("Erro ao criar etapa. Verifique se a Aeronave existe.");
     }
   };
 

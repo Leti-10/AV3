@@ -309,23 +309,37 @@ app.post('/funcionario', async (req, res): Promise<any> => {
 app.put('/funcionarioEdit', async (req, res) => {
   try {
     const { id, nome, cpf, cargo, usuario, senha, endereco, telefone } = req.body;
-
+    const dadosParaAtualizar: any = {
+      nome,
+      cpf,
+      cargo,
+      usuario,
+      senha,
+    };
+    if (endereco) {
+      dadosParaAtualizar.endereco = {
+        upsert: {
+          create: endereco,
+          update: endereco,
+        },
+      };
+    }
+    if (telefone) {
+      dadosParaAtualizar.telefone = {
+        upsert: {
+          create: telefone,
+          update: telefone,
+        },
+      };
+    }
     const funcionarioAtualizado = await prisma.funcionario.update({
       where: { id: Number(id) },
-      data: {
-        nome,
-        cpf,
-        cargo,
-        usuario,
-        senha,
-        endereco: endereco ? { upsert: { create: endereco, update: endereco } } : undefined,
-        telefone: telefone ? { upsert: { create: telefone, update: telefone } } : undefined,
-      },
+      data: dadosParaAtualizar,
       include: { endereco: true, telefone: true }
     });
-
     res.json(funcionarioAtualizado);
   } catch (e: any) {
+    console.error(e);
     res.status(400).json({ error: e.message || "Erro ao atualizar funcionário" });
   }
 });

@@ -10,7 +10,7 @@ interface Peca {
   fornecedor: string;
   tipo: 'Nacional' | 'Importada';
   status: 'Em_producao' | 'Em_transporte' | 'Pronta_para_uso';
-  aeronaveId: number;
+  aeronaveId: string;
   aeronave?: {
     modelo: string;
   };

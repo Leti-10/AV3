@@ -43,12 +43,12 @@ function ModalPeca({ onClose, onSuccess }: ModalProps) {
 
     try {
       await api.post('/peca', {
-        nome,
-        fornecedor,
-        tipo,
-        status,
-        aeronaveId: Number(aeronaveSelecionada)
-      });
+      nome,
+      fornecedor,
+      tipo,
+      status,
+      aeronaveId: aeronaveSelecionada
+    });
 
       onSuccess();
       onClose();
